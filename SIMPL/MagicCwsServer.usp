@@ -1,0 +1,17 @@
+/*
+(c) 2019 Kenneth Noyens
+*/
+#DEFAULT_VOLATILE
+#ENABLE_TRACE
+
+#INCLUDEPATH "..\\magicVariables\\bin\\Debug"
+#USER_SIMPLSHARP_LIBRARY "magicVariables"
+
+STRING_PARAMETER CwsVirtualPath[10];
+
+mvCwsInterface mci;
+
+Function Main()
+{
+    //WaitForInitializationComplete();
+}

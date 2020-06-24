@@ -1,0 +1,36 @@
+/*
+(c) 2019 Kenneth Noyens
+*/
+#DEFAULT_VOLATILE
+#ENABLE_STACK_CHECKING
+#ENABLE_TRACE
+
+#INCLUDEPATH "..\\magicVariables\\bin\\Debug"
+#USER_SIMPLSHARP_LIBRARY "magicVariables"
+
+ANALOG_INPUT valueIn;
+ANALOG_OUTPUT valueOut;
+
+STRING_PARAMETER _SKIP_, _SKIP_, nameVariable[10];
+
+mvSimplInterface interface;
+
+
+CHANGE valueIn
+{
+    interface.setValue(itoa(valueIn));
+}
+
+callback function VariableChangedCallback(string newValue)
+{
+	valueOut = atoi(newValue);
+}
+
+Function Main()
+{
+    WaitForInitializationComplete();
+
+	interface.Name(nameVariable);
+
+	RegisterDelegate(interface, VariableChanged, VariableChangedCallback);
+}

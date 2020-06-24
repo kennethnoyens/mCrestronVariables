@@ -1,0 +1,46 @@
+﻿//-----------------------------------------------------------------------
+// <copyright file="mvVariable.cs">
+//     Copyright (c) 2020 Kenneth Noyens
+//     You may use, distribute and modify this code under the
+//     terms of the LGPLv3 license.
+//     You should have received a copy of the GNU LGPLv3 license with
+//     this file. If not, please visit https://github.com/kennethnoyens/mCrestronVariables
+// </copyright>
+//-----------------------------------------------------------------------
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Crestron.SimplSharp;
+
+namespace magicVariables
+{
+    public class MagicVariable
+    {
+        //public string name;
+        public bool autoSave;
+        private string _variableValue;
+        public string variableValue
+        {
+            get { return _variableValue; }
+            set
+            {
+                _variableValue = value; 
+                OnVariableChanged();
+            }
+        }
+
+        public delegate void mVariableChangeEventHandler(object source, EventArgs args);
+        public event mVariableChangeEventHandler VariableChanged;
+
+        public void Save()
+        {
+        }
+
+        protected virtual void OnVariableChanged()
+        {
+            if (VariableChanged != null)
+                VariableChanged(this, EventArgs.Empty);
+        }
+    }
+}
