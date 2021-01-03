@@ -4,7 +4,20 @@ getHtmlForVariableType["AnalogSlider"] =
 		setTimeout(//function(){ alert("Hello"); }, 3000);
 		//$( document ).on( "pagecreate", 
 		function() {
-	    $("<input type='number' data-type='range' id='slider" + key + "input' min='0' max='100' step='1' value='" + variable.variableValue + "'>" )
+		var minMax = variable.variableOptions;
+		if(key.includes("-"))
+			{
+				var keySplit = key.split("-");
+				min = keySplit[0];
+				max = keySplit[1];
+			}
+		else
+			{
+				min = 0;
+				max = 100;
+			}
+		if(minMax
+	    $("<input type='number' data-type='range' id='slider" + key + "input' min='" + min +"' max='"+ max +"' step='1' value='" + variable.variableValue + "'>" )
 	        .appendTo( "#slider" + key )
 	        .slider()
 	        .textinput();
