@@ -18,7 +18,8 @@ MvSimplInterface interface;
 
 CHANGE valueIn
 {
-    interface.setValue(itoa(valueIn));
+	if(valueIn != valueOut)
+    	interface.setValue(itoa(valueIn));
 }
 
 callback function VariableChangedCallback(string newValue)

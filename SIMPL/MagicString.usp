@@ -9,6 +9,7 @@
 #USER_SIMPLSHARP_LIBRARY "magicVariables"
 
 STRING_INPUT valueIn[100];
+STRING valueOutSaved[255];
 STRING_OUTPUT valueOut;
 
 STRING_PARAMETER _SKIP_, _SKIP_, nameVariable[10], variableType[15], variableOptions[30];
@@ -18,12 +19,14 @@ MvSimplInterface interface;
 
 CHANGE valueIn
 {
-    interface.setValue(valueIn);
+	if(valueIn != valueOutSaved)
+   		interface.setValue(valueIn);
 }
 
 callback function VariableChangedCallback(string newValue)
 {
 	valueOut = newValue;
+	valueOutSaved = newValue;
 }
 
 Function Main()
