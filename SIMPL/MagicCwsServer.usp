@@ -9,7 +9,7 @@
 
 STRING_PARAMETER CwsVirtualPath[10];
 
-mvCwsInterface mci;
+MvCwsInterface mci;
 
 Function Main()
 {

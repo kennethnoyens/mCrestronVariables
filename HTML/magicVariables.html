@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Magic Variable</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+	<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+	<script>
+	var getHtmlForVariableType = {}; //= new Array();
+	//var typesLoaded = new Array();
+		$( document ).ready(function() 
+		{
+			$.getJSON( "cws/mv/vars/", function( data ) 
+			{
+				var previousGroup;
+				var groups = 0;
+				var content = "";
+				var data;
+				
+				$.each( data, function( key, val ) 
+				{
+					// See if we already loaded the .js for this specific variable type.
+					/*
+					if(!typesLoaded.includes(val.variableType))
+						$.getScript(val.variableType + ".js", function(data, textStatus, jqxhr) {
+							console.log(data);
+							console.log(textStatus);
+							console.log(jqxhr.status);
+							console.log('Load was performed.');
+							});
+					*/
+					
+					if(key.includes("-"))
+					{
+						var keySplit = key.split("-");
+						group = keySplit[0];
+						variableName = keySplit[1];
+					}
+					else
+					{
+						group = "";
+						variableName = key;
+					}
+					
+					if(group != previousGroup)
+					{
+						if (groups > 0)
+							content += "</div>";	
+						content += "<div data-role='collapsible' id='set" + groups + "'><h3>" + group + "</h3>";
+						
+						groups++;
+						previousGroup = group;
+					}
+					
+					if(val.variableType in getHtmlForVariableType)
+					{
+						//content += getHtmlForVariableType[val.variableType](variableName, val);
+						content += variableName + ": <form id='slider" + key + "'></form>";
+						getHtmlForVariableType[val.variableType](key, val);
+					}
+					else
+						content += variableName + " " +  val.variableValue  + "<br />";
+					
+				});
+				content += "</div>";
+				$("#variablelist").append( content ).collapsibleset('refresh');
+			});
+		});		
+	</script>
+	<script src="AnalogSlider.js"></script>
+</head>
+<body>
+	<div data-role="page">
+
+			<div data-role="header">
+				<h1>Variable List</h1>
+			</div><!-- /header -->
+		
+			<div data-role="collapsible-set" class="ui-content" id="variablelist">
+				
+			</div><!-- /content -->
+		</div><!-- /page -->
+
+</body>
+</html>

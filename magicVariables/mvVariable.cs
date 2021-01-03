@@ -19,7 +19,10 @@ namespace magicVariables
     {
         //public string name;
         public bool autoSave;
+        public string variableType;
+        public string variableOptions;
         private string _variableValue;
+
         public string variableValue
         {
             get { return _variableValue; }

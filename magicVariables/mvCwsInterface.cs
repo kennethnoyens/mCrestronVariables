@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="mVariable.cs">
-//     Copyright (c) 2020 Kenneth Noyens
+//     Copyright (c) 2020-2021 Kenneth Noyens
 //     You may use, distribute and modify this code under the
 //     terms of the LGPLv3 license.
 //     You should have received a copy of the GNU LGPLv3 license with
@@ -13,6 +13,7 @@ using System.Linq;
 using System.Text;
 using Crestron.SimplSharp;
 using Crestron.SimplSharp.WebScripting;
+using Crestron.SimplSharp.CrestronIO;
 using Newtonsoft.Json;
 
 namespace magicVariables
@@ -25,7 +26,8 @@ namespace magicVariables
         {
             Server = new HttpCwsServer("/mv");    
             Server.HttpRequestHandler = new MvServerHandler(Server);
-            Server.Routes.Add(new HttpCwsRoute("variables") { Name = "VARIABLES" });
+            Server.Routes.Add(new HttpCwsRoute("vars") { Name = "VARS.LIST" });
+            Server.Routes.Add(new HttpCwsRoute("vars/{name}") { Name = "VARS.NAME" });
             Server.Register();
         }
     }
@@ -48,12 +50,31 @@ namespace magicVariables
                 }
                 else
                 {
-                    string action = context.Request.HttpMethod + context.Request.RouteData.Route.Name.ToUpper();
-                    switch (action)
+                    switch (context.Request.HttpMethod + context.Request.RouteData.Route.Name.ToUpper())
                     {
-                        case "GETVARIABLES":
+                        case "GETVARS.LIST":
                             context.Response.ContentType = "application/json";
                             context.Response.Write(MvMain.getMagicVariablesSerialized(), true);
+                            break;
+                        case "GETVARS.NAME":
+                            String findName = Convert.ToString(context.Request.RouteData.Values["name"]);
+                            context.Response.ContentType = "application/json";
+                            context.Response.Write(MvMain.getMagicVariablesSerialized(findName), true);
+                            break;
+                        case "PUTVARS.NAME":
+                            if (context.Request.InputStream != null && context.Request.InputStream.Length > 0)
+                            {
+                                String name = Convert.ToString(context.Request.RouteData.Values["name"]);
+                                Byte[] rawNewValue = new Byte[(int)context.Request.InputStream.Length];
+                                context.Request.InputStream.Read(rawNewValue, 0, (int)context.Request.InputStream.Length);
+                                MvMain.GetMagicVariable(name).variableValue = System.Text.Encoding.UTF8.GetString(rawNewValue, 0, (int)context.Request.InputStream.Length);
+                                CrestronConsole.PrintLine("MV PUTVARS " + name + ": " + MvMain.GetMagicVariable(name).variableValue);
+                            }
+                            else
+                            {
+                                context.Response.StatusCode = 411;
+                                context.Response.Write("No content found", true);
+                            }
                             break;
                     }
                 }

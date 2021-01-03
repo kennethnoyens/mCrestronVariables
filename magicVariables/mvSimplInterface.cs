@@ -45,6 +45,18 @@ namespace magicVariables
                 VariableChanged(mv.variableValue);
         }
 
+        public void setVariableType(string type)
+        {
+            if (mv != null)
+                mv.variableType = type;
+        }
+
+        public void setVariableOptions(string options)
+        {
+            if (mv != null)
+                mv.variableOptions = options;
+        }
+
         public void setAutoSave(ushort on)
         {
             if(mv != null)

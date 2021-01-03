@@ -11,9 +11,9 @@
 STRING_INPUT valueIn[100];
 STRING_OUTPUT valueOut;
 
-STRING_PARAMETER _SKIP_, _SKIP_, nameVariable[10];
+STRING_PARAMETER _SKIP_, _SKIP_, nameVariable[10], variableType[15], variableOptions[30];
 
-mvSimplInterface interface;
+MvSimplInterface interface;
 
 
 CHANGE valueIn
@@ -31,6 +31,7 @@ Function Main()
     WaitForInitializationComplete();
 
 	interface.Name(nameVariable);
-
+	interface.setVariableType(variableType);
+	interface.setVariableOptions(variableOptions);
 	RegisterDelegate(interface, VariableChanged, VariableChangedCallback);
 }

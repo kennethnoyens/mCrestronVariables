@@ -28,16 +28,45 @@ namespace magicVariables
             return jsonResult;
         }
 
+        static public string getMagicVariablesSerialized(String search)
+        {
+            Dictionary<string, MagicVariable> searchResult = new Dictionary<string, MagicVariable>();
+
+            cs.Enter();
+            
+            foreach (KeyValuePair<string, MagicVariable> variable in variables)
+            {
+                if (variable.Key.ToString().Contains(search))
+                {
+                    searchResult.Add(variable.Key, variable.Value);
+                }
+            }
+            cs.Leave();
+
+            string jsonResult = JsonConvert.SerializeObject(searchResult);
+            return jsonResult;
+        }
+
         static public MagicVariable GetMagicVariable(string name)
         {
             MagicVariable variable;
+
+            cs.Enter();
 
             if (!variables.TryGetValue(name, out variable))
             {
                 variable = new MagicVariable();
                 variables.Add(name, variable);
             }
+
+            cs.Leave();
+
             return variable;
+        }
+
+        static public bool CheckMagicVariableExists(string name)
+        {
+            return variables.ContainsKey(name);
         }
     }
 }
