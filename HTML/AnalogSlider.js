@@ -5,9 +5,9 @@ getHtmlForVariableType["AnalogSlider"] =
 		//$( document ).on( "pagecreate", 
 		function() {
 		var minMax = variable.variableOptions;
-		if(key.includes("-"))
+		if(minMax.includes("-"))
 			{
-				var keySplit = key.split("-");
+				var keySplit = minMax.split("-");
 				min = keySplit[0];
 				max = keySplit[1];
 			}
@@ -16,7 +16,7 @@ getHtmlForVariableType["AnalogSlider"] =
 				min = 0;
 				max = 100;
 			}
-		if(minMax
+
 	    $("<input type='number' data-type='range' id='slider" + key + "input' min='" + min +"' max='"+ max +"' step='1' value='" + variable.variableValue + "'>" )
 	        .appendTo( "#slider" + key )
 	        .slider()
