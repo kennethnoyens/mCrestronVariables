@@ -1,9 +1,6 @@
 getHtmlForVariableType["AnalogSlider"] = 
 	function (key, variable) 
-	{ 
-		setTimeout(//function(){ alert("Hello"); }, 3000);
-		//$( document ).on( "pagecreate", 
-		function() {
+	{
 		var minMax = variable.variableOptions;
 		if(minMax.includes("-"))
 			{
@@ -29,11 +26,5 @@ getHtmlForVariableType["AnalogSlider"] =
 			url: "cws/mv/vars/"+key,
 			data: slider_value
 			});
-			//alert("response from "+ slider_value +": " + result);
 		});
-		}, 1000);
-		//);
-		//content = '<form><label for="slider'+variableName+'">Input slider:</label>';
-		//content += '<input type="range" name="slider'+variableName+'" id="slider'+variableName+'" value="60" min="0" max="100">';
-		//return(content + "<form/><br />");
 	};

@@ -8,14 +8,14 @@
 	<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
 	<script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 	<script>
-	var getHtmlForVariableType = {}; //= new Array();
+	var getHtmlForVariableType = {};
 	//var typesLoaded = new Array();
 		$( document ).ready(function() 
 		{
 			$.getJSON( "cws/mv/vars/", function( data ) 
 			{
-				var previousGroup;
-				var groups = 0;
+				var previousGroups = new Array();
+				//var groups = 0;
 				var content = "";
 				var data;
 				
@@ -44,28 +44,23 @@
 						variableName = key;
 					}
 					
-					if(group != previousGroup)
+					if(!previousGroups.includes(group))
 					{
-						if (groups > 0)
-							content += "</div>";	
-						content += "<div data-role='collapsible' id='set" + groups + "'><h3>" + group + "</h3>";
-						
-						groups++;
-						previousGroup = group;
+						$("#variablelist").append("<div data-role='collapsible' id='set" + group + "'><h3>" + group + "</h3></div>");
+						previousGroups.push(group)
 					}
 					
 					if(val.variableType in getHtmlForVariableType)
 					{
-						//content += getHtmlForVariableType[val.variableType](variableName, val);
-						content += variableName + ": <form id='slider" + key + "'></form>";
+						$("#set" + group).append(variableName + ": <form id='slider" + key + "'></form>");
 						getHtmlForVariableType[val.variableType](key, val);
 					}
 					else
-						content += variableName + " " +  val.variableValue  + "<br />";
+						$("#set" + group).append(variableName + " " +  val.variableValue  + "<br />");
 					
 				});
 				content += "</div>";
-				$("#variablelist").append( content ).collapsibleset('refresh');
+				$("#variablelist").collapsibleset('refresh');
 			});
 		});		
 	</script>
