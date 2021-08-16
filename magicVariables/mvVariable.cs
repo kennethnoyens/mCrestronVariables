@@ -29,7 +29,7 @@ namespace magicVariables
             set
             {
                 _variableValue = value; 
-                OnVariableChanged();
+                //OnVariableChanged();
             }
         }
 
@@ -38,6 +38,18 @@ namespace magicVariables
 
         public void Save()
         {
+        }
+
+        public void setVariableValue(string _value)
+        {
+            variableValue = _value;
+        }
+
+        public void setVariableValue(string _value, bool sendToSimpl)
+        {
+            variableValue = _value;
+            if(sendToSimpl)
+                OnVariableChanged();
         }
 
         protected virtual void OnVariableChanged()

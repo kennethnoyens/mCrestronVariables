@@ -67,8 +67,8 @@ namespace magicVariables
                                 String name = Convert.ToString(context.Request.RouteData.Values["name"]);
                                 Byte[] rawNewValue = new Byte[(int)context.Request.InputStream.Length];
                                 context.Request.InputStream.Read(rawNewValue, 0, (int)context.Request.InputStream.Length);
-                                MvMain.GetMagicVariable(name).variableValue = System.Text.Encoding.UTF8.GetString(rawNewValue, 0, (int)context.Request.InputStream.Length);
-                                CrestronConsole.PrintLine("MV PUTVARS " + name + ": " + MvMain.GetMagicVariable(name).variableValue);
+                                MvMain.GetMagicVariable(name).setVariableValue(System.Text.Encoding.UTF8.GetString(rawNewValue, 0, (int)context.Request.InputStream.Length), true);
+                                //CrestronConsole.PrintLine("MV PUTVARS " + name + ": " + MvMain.GetMagicVariable(name).variableValue);
                             }
                             else
                             {

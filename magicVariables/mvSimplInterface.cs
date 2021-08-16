@@ -66,7 +66,7 @@ namespace magicVariables
         public void setValue(string value)
         {
             if (mv != null)
-                mv.variableValue = value;
+                mv.setVariableValue(value);
         }
     }
 }
