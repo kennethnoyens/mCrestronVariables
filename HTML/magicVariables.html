@@ -8,11 +8,19 @@
 	<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
 	<script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 	<script>
-	var getHtmlForVariableType = {};
+	var VariableType_getHtml = {};
+	var VariableType_function = {};
 	//var typesLoaded = new Array();
 		$( document ).ready(function() 
 		{
-			$.getJSON( "cws/mv/vars/", function( data ) 
+			const urlString = window.location.search;
+			const urlParams = new URLSearchParams(urlString);
+			if (urlParams.has('area'))
+				var area = urlParams.get('area');
+			else
+				area = "";
+				
+			$.getJSON( "cws/mv/vars/" + area, function( data ) 
 			{
 				var previousGroups = new Array();
 				//var groups = 0;
@@ -50,13 +58,14 @@
 						previousGroups.push(group)
 					}
 					
-					if(val.variableType in getHtmlForVariableType)
+					if(val.variableType in VariableType_function)
 					{
-						$("#set" + group).append(variableName + ": <form id='slider" + key + "'></form>");
-						getHtmlForVariableType[val.variableType](key, val);
+						$("#set" + group).append(VariableType_getHtml[val.variableType](variableName, key));
+						///variableName + ": <form id='slider" + key + "'></form>");
+						VariableType_function[val.variableType](key, val);
 					}
 					else
-						$("#set" + group).append(variableName + " " +  val.variableValue  + "<br />");
+						$("#set" + group).append(variableName + " " +  val.variableValue  + "<br />"); // variable.variableValue
 					
 				});
 				content += "</div>";
@@ -65,14 +74,10 @@
 		});		
 	</script>
 	<script src="AnalogSlider.js"></script>
+	<script src="OptionsList.js"></script>
 </head>
 <body>
 	<div data-role="page">
-
-			<div data-role="header">
-				<h1>Variable List</h1>
-			</div><!-- /header -->
-		
 			<div data-role="collapsible-set" class="ui-content" id="variablelist">
 				
 			</div><!-- /content -->

@@ -1,4 +1,9 @@
-getHtmlForVariableType["AnalogSlider"] = 
+VariableType_getHtml["AnalogSlider"] = 
+	function(variableName, key)
+	{
+		return variableName + ": <form id='slider" + key + "'></form>";
+	};
+VariableType_function["AnalogSlider"] = 
 	function (key, variable) 
 	{
 		var minMax = variable.variableOptions;
