@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Magic Variable</title>
+	<title>Office Control</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
 	<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
@@ -15,6 +15,8 @@
 		{
 			const urlString = window.location.search;
 			const urlParams = new URLSearchParams(urlString);
+			
+			// If area name is included in the url ?area= add this area to the json request URL as a search paramater.
 			if (urlParams.has('area'))
 				var area = urlParams.get('area');
 			else
@@ -44,7 +46,7 @@
 					{
 						var keySplit = key.split("-");
 						group = keySplit[0];
-						variableName = keySplit[1];
+						variableName = key.replace(group + '-', '');					
 					}
 					else
 					{
@@ -54,7 +56,10 @@
 					
 					if(!previousGroups.includes(group))
 					{
-						$("#variablelist").append("<div data-role='collapsible' id='set" + group + "'><h3>" + group + "</h3></div>");
+						if(group.includes(area))
+							groupName = group.replace(area, '');
+							
+						$("#variablelist").append("<div data-role='collapsible' id='set" + group + "'><h3>" + groupName + "</h3></div>");
 						previousGroups.push(group)
 					}
 					
@@ -70,11 +75,24 @@
 				});
 				content += "</div>";
 				$("#variablelist").collapsibleset('refresh');
+				
+				if(previousGroups.length == 1)
+				{
+					$( "#set" + group ).trigger('expand');//collapsibleset( "option", "data-collapsed", false );
+				}
+				
 			});
+
+		        $( "#variablelist" ).children( ":last" ).collapsible( "expand" );
+
+
 		});		
 	</script>
 	<script src="AnalogSlider.js"></script>
 	<script src="OptionsList.js"></script>
+	<script src="AnalogInput.js"></script>
+	<script src="AnalogText.js"></script>
+	<script src="Button.js"></script>
 </head>
 <body>
 	<div data-role="page">

@@ -1,0 +1,47 @@
+/*
+(c) 2019 Kenneth Noyens
+*/
+#DEFAULT_VOLATILE
+#ENABLE_STACK_CHECKING
+#ENABLE_TRACE
+
+#INCLUDEPATH "..\\magicVariables\\bin\\Debug"
+#USER_SIMPLSHARP_LIBRARY "magicVariables"
+
+DIGITAL_INPUT valueIn;
+//STRING valueOutSaved[255];
+DIGITAL_OUTPUT valueOut;
+
+STRING_PARAMETER _SKIP_, _SKIP_, nameVariable[10], variableType[15], variableOptions[30];
+
+MvSimplInterface interface;
+
+
+PUSH valueIn
+{
+	interface.setValue("PUSH");
+}
+
+RELEASE valueIn
+{
+	interface.setValue("RELEASE");
+}
+
+
+callback function VariableChangedCallback(string newValue)
+{
+	if(newValue = "PUSH")
+		valueOut = 1;
+	else if(newValue = "RELEASE")
+		valueOut = 0;
+}
+
+Function Main()
+{
+    WaitForInitializationComplete();
+
+	interface.Name(nameVariable);
+	interface.setVariableType(variableType);
+	interface.setVariableOptions(variableOptions);
+	RegisterDelegate(interface, VariableChanged, VariableChangedCallback);
+}
