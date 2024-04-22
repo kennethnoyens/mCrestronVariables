@@ -7,11 +7,11 @@
 //     this file. If not, please visit https://github.com/kennethnoyens/mCrestronVariables
 // </copyright>
 //-----------------------------------------------------------------------
-using System;
-using System.Text;
-using System.Collections.Generic;
 using Crestron.SimplSharp;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace magicVariables
 {
@@ -33,7 +33,7 @@ namespace magicVariables
             Dictionary<string, MagicVariable> searchResult = new Dictionary<string, MagicVariable>();
 
             cs.Enter();
-            
+
             foreach (KeyValuePair<string, MagicVariable> variable in variables)
             {
                 if (variable.Key.ToString().Contains(search))

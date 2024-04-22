@@ -7,11 +7,11 @@
 //     this file. If not, please visit https://github.com/kennethnoyens/mCrestronVariables
 // </copyright>
 //-----------------------------------------------------------------------
+using Crestron.SimplSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Crestron.SimplSharp;
 
 namespace magicVariables
 {
@@ -41,7 +41,7 @@ namespace magicVariables
 
         void mv_VariableChanged(object source, EventArgs args)
         {
-            if(VariableChanged != null)
+            if (VariableChanged != null)
                 VariableChanged(mv.variableValue);
         }
 
@@ -55,12 +55,6 @@ namespace magicVariables
         {
             if (mv != null)
                 mv.variableOptions = options;
-        }
-
-        public void setAutoSave(ushort on)
-        {
-            if(mv != null)
-                mv.autoSave = (on == 1);// ? true : false;
         }
 
         public void setValue(string value)

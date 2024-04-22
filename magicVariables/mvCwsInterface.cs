@@ -7,14 +7,14 @@
 //     this file. If not, please visit https://github.com/kennethnoyens/mCrestronVariables
 // </copyright>
 //-----------------------------------------------------------------------
+using Crestron.SimplSharp;
+using Crestron.SimplSharp.CrestronIO;
+using Crestron.SimplSharp.WebScripting;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Crestron.SimplSharp;
-using Crestron.SimplSharp.WebScripting;
-using Crestron.SimplSharp.CrestronIO;
-using Newtonsoft.Json;
 
 namespace magicVariables
 {
@@ -24,7 +24,7 @@ namespace magicVariables
 
         public MvCwsInterface()
         {
-            Server = new HttpCwsServer("/mv");    
+            Server = new HttpCwsServer("/mv");
             Server.HttpRequestHandler = new MvServerHandler(Server);
             Server.Routes.Add(new HttpCwsRoute("vars") { Name = "VARS.LIST" });
             Server.Routes.Add(new HttpCwsRoute("vars/{name}") { Name = "VARS.NAME" });
@@ -32,15 +32,15 @@ namespace magicVariables
         }
     }
 
-    class MvServerHandler : IHttpCwsHandler
+    internal class MvServerHandler : IHttpCwsHandler
     {
         private HttpCwsServer Server;
         public MvServerHandler(HttpCwsServer _Server)
         {
             this.Server = _Server;
         }
-        
-       void IHttpCwsHandler.ProcessRequest(HttpCwsContext context)
+
+        void IHttpCwsHandler.ProcessRequest(HttpCwsContext context)
         {
             try
             {
@@ -84,6 +84,7 @@ namespace magicVariables
                 context.Response.ContentType = "text/html";
                 context.Response.StatusCode = 500;
                 context.Response.Write("<HTML><HEAD>ERROR</HEAD><BODY>Internal server error</BODY></HEAD></HTML>", true);
+                CrestronConsole.PrintLine("Error while processing http cws request: " + ex.Message);
             }
         }
     }
