@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Crestron.Autouploader.4Series" Version="1.0.34" />
+    <PackageReference Include="Crestron.SimplSharp.SDK.Program" Version="2.20.58" />
+    <PackageReference Include="Telegram.Bot" Version="19.0.0" />
+  </ItemGroup>
+<Target Name="SimplSharpNewtonsoft" BeforeTargets="FindReferenceAssembliesForReferences;ResolveReferences">
+        <ItemGroup>
+            <ReferencePath Condition="'%(FileName)' == 'SimplSharpNewtonsoft'">
+                <Aliases>doNotUse</Aliases>
+            </ReferencePath>
+        </ItemGroup>
+    </Target>
+
+</Project>

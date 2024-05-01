@@ -4,7 +4,7 @@
 #DEFAULT_VOLATILE
 #ENABLE_TRACE
 
-//#INCLUDEPATH "..\\magicVariables\\bin\\Debug"
+#INCLUDEPATH "..\\magicVariables\\bin\\Debug"
 #USER_SIMPLSHARP_LIBRARY "magicVariables"
 
 STRING_PARAMETER CwsVirtualPath[10];
